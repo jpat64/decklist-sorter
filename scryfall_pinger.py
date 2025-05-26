@@ -5,9 +5,6 @@ import time
 from decklist_reader import scrape_names
 import functools
 
-
-    
-
 cardcolors = {
     "W": ("White", 1),
     "U":("Blue",  2),

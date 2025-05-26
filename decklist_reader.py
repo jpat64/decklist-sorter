@@ -7,8 +7,10 @@ def scrape_names(filename):
     deck_number = -1
     cards = [[]]
     index = 0
+    do_not_read_cards = False
     for line in lines:
         words_separated = line.split(" ")
+        # print(f'{words_separated}, {len(words_separated)}')
         if len(words_separated) > 1 and not do_not_read_cards:
             # not a category, like "Mainboard"
             index_of_first_space = line.index(" ")
