@@ -16,7 +16,7 @@ def toMTGA(commander, deck, number):
     spacingPart = "\n\n"
     commanderPart = "Commander\n"
     deckTitlePart = "Deck\n"
-    deckPart = deck.map(lambda element: element.__repr__()).join("\n")
+    deckPart = map(str, deck).join("\n")
     return f"{aboutPart}Player {number}'s Deck{spacingPart}{commanderPart}{commander}{spacingPart}{deckTitlePart}{deckPart}"
      
 
