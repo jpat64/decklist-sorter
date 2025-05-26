@@ -24,6 +24,7 @@ def toMTGA(commander, deck, number):
 def main():
     deck = []
     added_cards = 0
+    added_lands = 0
 
     if True:
         # first, pick a commander from a predetermined list
@@ -53,19 +54,36 @@ def main():
 
         excluded_card_names = ["Plains", "Island", "Swamp", "Mountain", "Forest"]
         excluded_card_names.append(choice)
+        need_it_to_be_a_land = False
 
         while (added_cards < 85):
+            reason = None
             random_card = json_of_cards[floor(random() * len(json_of_cards))]
             name = random_card["name"]
             legal = random_card["legalities"]["commander"] == "legal"
-            if legal and (name not in excluded_card_names):
-                quantity = 1
-                deck.append(Card(name=name, quantity=quantity))
-                excluded_card_names.append(name)
-                added_cards += 1
-                print(f"Added {name}")
+            type_line = random_card["type_line"]
+            print(f"{name}: {type_line} {'is a land' if ('Land' in type_line) else 'not a land' }")
+            if legal:
+                if name not in excluded_card_names:
+                    if not need_it_to_be_a_land or ("Land" in type_line):
+                        quantity = 1
+                        deck.append(Card(name=name, quantity=quantity))
+                        excluded_card_names.append(name)
+                        added_cards += 1
+                        print(f"Added {name}")
+                        if ("Land" in type_line):
+                            print("(which is a land)")
+                            added_lands += 1
+                            need_it_to_be_a_land = added_cards - added_lands > 62
+                    else:
+                        reason = "we need to add a land"
+                else:
+                    reason = "we already have it"
             else:
-                print(f"Did not add {name} because it was either not legal or we already have one")
+                reason = "it was not legal"
+            
+            if reason is not None:
+                print(f"Did not add {name} because {reason}")
         
         deck.append(Card(name="Plains", quantity=2))
         deck.append(Card(name="Island", quantity=2))
