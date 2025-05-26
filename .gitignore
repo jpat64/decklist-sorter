@@ -1,3 +1,5 @@
 infiles/
 outfiles/
 __pycache__/
+
+default-cards.json
